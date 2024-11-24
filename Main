@@ -82,39 +82,7 @@ typedef struct Graphe {
     int nbArcs;
     Sommet* sommets;
     Arc* arcs;
-} Graphe; Structure pour représenter un graphe
-typedef struct Graphe {
-    int nbSommets;
-    int nbArcs;
-    Sommet* sommets;
-    Arc* arcs;
-} Graphe; Structure pour représenter un graphe
-typedef struct Graphe {
-    int nbSommets;
-    int nbArcs;
-    Sommet* sommets;
-    Arc* arcs;
-} Graphe; Structure pour représenter un graphe
-typedef struct Graphe {
-    int nbSommets;
-    int nbArcs;
-    Sommet* sommets;
-    Arc* arcs;
-} Graphe; Structure pour représenter un graphe
-typedef struct Graphe {
-    int nbSommets;
-    int nbArcs;
-    Sommet* sommets;
-    Arc* arcs;
-} Graphe;
-// Fonction pour initialiser un graphe
-Graphe* initialiserGraphe(int nbSommets, int nbArcs) {
-    Graphe* graphe = (Graphe*)malloc(sizeof(Graphe));
-    graphe->nbSommets = nbSommets;
-    graphe->nbArcs = nbArcs;
-    graphe->sommets = (Sommet*)malloc(nbSommets * sizeof(Sommet));
-    graphe->arcs = (Arc*)malloc(nbArcs * sizeof(Arc));
-    return graphe;
+} 
 }
 
 // Fonction pour ajouter un sommet
