@@ -1,3 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Structure pour représenter un sommet (espèce ou ressource)
+typedef struct Sommet {
+    int id;
+    char nom[50];
+} Sommet;
+
+// Structure pour représenter un arc (relation de prédation ou autre interaction)
+typedef struct Arc {
+    int source;
+    int destination;
+    float poids; // Pondération (ex. : part de biomasse ou influence)
+} Arc;
+
+// Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe;
+
+// Fonction pour initialiser un graphe
+Graphe* initialiserGraphe(int nbSommets, int nbArcs) {
+    Graphe* graphe = (Graphe*)malloc(sizeof(Graphe));
+    graphe->nbSommets = nbSommets;
+    graphe->nbArcs = nbArcs;
+    graphe->sommets = (Sommet*)malloc(nbSommets * sizeof(Sommet));
+    graphe->arcs = (Arc*)malloc(nbArcs * sizeof(Arc));
+    return graphe;
+}
 
 // Fonction pour ajouter un sommet
 void ajouterSommet(Graphe* graphe, int id, const char* nom) {
