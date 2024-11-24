@@ -52,7 +52,22 @@ void afficherGraphe(Graphe* graphe) {
     for (int i = 0; i < graphe->nbSommets; i++) {
         printf("ID: %d, Nom: %s\n", graphe->sommets[i].id, graphe->sommets[i].nom);
     }
-
+// Fonction pour ajouter un arc
+void ajouterArc(Graphe* graphe, int index, int source, int destination, float poids) {
+    graphe->arcs[index].source = source;
+    graphe->arcs[index].destination = destination;
+    graphe->arcs[index].poids = poids;
+}// Fonction pour ajouter un arc
+void ajouterArc(Graphe* graphe, int index, int source, int destination, float poids) {
+    graphe->arcs[index].source = source;
+    graphe->arcs[index].destination = destination;
+    graphe->arcs[index].poids = poids;
+}// Fonction pour ajouter un arc
+void ajouterArc(Graphe* graphe, int index, int source, int destination, float poids) {
+    graphe->arcs[index].source = source;
+    graphe->arcs[index].destination = destination;
+    graphe->arcs[index].poids = poids;
+}
     printf("\nArcs du graphe:\n");
     for (int i = 0; i < graphe->nbArcs; i++) {
         printf("De %s à %s avec poids %.2f\n",
