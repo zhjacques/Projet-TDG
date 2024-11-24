@@ -22,7 +22,91 @@ typedef struct Graphe {
     Sommet* sommets;
     Arc* arcs;
 } Graphe;
-
+ Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe; Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe;
 // Fonction pour initialiser un graphe
 Graphe* initialiserGraphe(int nbSommets, int nbArcs) {
     Graphe* graphe = (Graphe*)malloc(sizeof(Graphe));
