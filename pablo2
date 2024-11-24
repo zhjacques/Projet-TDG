@@ -1,0 +1,11 @@
+/* Réseau trophique forêt - Matrice d'adjacence */
+/* 1: Arbres, 2: Plantes, 3: Cerfs, 4: Lapins, 5: Insectes, 6: Renards, 7: Oiseaux de proie, 8: Loups, 9: Champignons */
+0 0 1 1 1 0 0 0 0  // Arbres
+0 0 1 1 1 0 0 0 0  // Plantes
+0 0 0 0 0 1 0 0 0  // Cerfs
+0 0 0 0 0 1 1 0 0  // Lapins
+0 0 0 0 0 0 1 0 0  // Insectes
+0 0 0 0 0 0 0 1 0  // Renards
+0 0 0 0 0 0 0 1 0  // Oiseaux de proie
+0 0 0 0 0 0 0 0 1  // Loups
+0 0 0 0 0 0 0 0 0  // Champignons
