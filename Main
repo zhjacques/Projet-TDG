@@ -86,3 +86,95 @@ int main() {
 
     return 0;
 }
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Structure pour représenter un sommet (espèce ou ressource)
+typedef struct Sommet {
+    int id;
+    char nom[50];
+} Sommet;
+
+// Structure pour représenter un arc (relation de prédation)
+typedef struct Arc {
+    int source;
+    int destination;
+    float poids; // Pondération (exemple : biomasse ou influence)
+} Arc;
+
+// Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe;
+
+// Fonction pour initialiser un graphe
+Graphe* initialiserGraphe(int nbSommets, int nbArcs) {
+    Graphe* graphe = (Graphe*)malloc(sizeof(Graphe));
+    graphe->nbSommets = nbSommets;
+    graphe->nbArcs = nbArcs;
+    graphe->sommets = (Sommet*)malloc(nbSommets * sizeof(Sommet));
+    graphe->arcs = (Arc*)malloc(nbArcs * sizeof(Arc));
+    return graphe;
+}
+
+// Fonction pour ajouter un sommet
+void ajouterSommet(Graphe* graphe, int id, const char* nom) {
+    graphe->sommets[id].id = id;
+    strcpy(graphe->sommets[id].nom, nom);
+}
+
+// Fonction pour ajouter un arc
+void ajouterArc(Graphe* graphe, int index, int source, int destination, float poids) {
+    graphe->arcs[index].source = source;
+    graphe->arcs[index].destination = destination;
+    graphe->arcs[index].poids = poids;
+}
+
+// Fonction pour afficher le graphe
+void afficherGraphe(Graphe* graphe) {
+    printf("Sommets du graphe (espèces) :\n");
+    for (int i = 0; i < graphe->nbSommets; i++) {
+        printf("ID: %d, Nom: %s\n", graphe->sommets[i].id, graphe->sommets[i].nom);
+    }
+
+    printf("\nArcs du graphe (relations trophiques) :\n");
+    for (int i = 0; i < graphe->nbArcs; i++) {
+        printf("De %s à %s avec un poids de %.2f\n",
+               graphe->sommets[graphe->arcs[i].source].nom,
+               graphe->sommets[graphe->arcs[i].destination].nom,
+               graphe->arcs[i].poids);
+    }
+}
+
+// Fonction principale
+int main() {
+    // Initialisation du réseau trophique
+    Graphe* graphe = initialiserGraphe(4, 3); // 4 sommets, 3 arcs
+
+    // Ajouter des sommets (espèces)
+    ajouterSommet(graphe, 0, "Herbe");
+    ajouterSommet(graphe, 1, "Lapin");
+    ajouterSommet(graphe, 2, "Renard");
+    ajouterSommet(graphe, 3, "Loup");
+
+    // Ajouter des arcs (relations trophiques)
+    ajouterArc(graphe, 0, 0, 1, 0.9); // Herbe -> Lapin
+    ajouterArc(graphe, 1, 1, 2, 0.8); // Lapin -> Renard
+    ajouterArc(graphe, 2, 2, 3, 0.7); // Renard -> Loup
+
+    // Afficher le graphe
+    afficherGraphe(graphe);
+
+    // Libérer la mémoire
+    free(graphe->sommets);
+    free(graphe->arcs);
+    free(graphe);
+
+    return 0;
+}
