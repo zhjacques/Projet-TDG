@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+
+#define MAX 100
+
+int rechercheChemin(int ordre, int capacite[MAX][MAX], int flot[MAX][MAX], int source, int destination, int parent[]);
+
+// Fonction pour lire les données du fichier
+void lireFichier(const char* nomFichier, int* ordre, char sommets[], int capacite[MAX][MAX]) {
+    FILE* fichier = fopen(nomFichier, "r");
+    if (fichier == NULL) {
+        printf("Erreur : impossible d'ouvrir le fichier\n");
+        exit(1);
+    }
+
+    fscanf(fichier, "%d", ordre); // Lecture de l'ordre du graphe
+    fgetc(fichier); // Lecture du saut de ligne après l'ordre
+
+    // Lecture des noms de sommets
+    fgets(sommets, MAX, fichier);
+
+    // Lecture de la matrice des capacités
+    for (int i = 0; i < *ordre; i++) {
+        for (int j = 0; j < *ordre; j++) {
+            fscanf(fichier, "%d", &capacite[i][j]);
+        }
+    }
+
+    fclose(fichier);
+}
+
+// Fonction de recherche du flot maximal (algorithme de Ford-Fulkerson)
+int felkurson(int ordre, int capacite[MAX][MAX], int flot[MAX][MAX], int source, int destination) {
+    int maxFlot = 0;
+    int parent[MAX]; // Tableau pour stocker le chemin
+
+
+    // Initialisation du flot à 0
+    for (int i = 0; i < ordre; i++) {
+        for (int j = 0; j < ordre; j++) {
+            flot[i][j] = 0;
+        }
+    }
+
+    // Tant qu'il existe un chemin augmentant
+    while (rechercheChemin(ordre, capacite, flot, source, destination, parent)) {
+        // Trouver la capacité minimale le long du chemin
+        int flotChemin = INT_MAX;
+        for (int v = destination; v != source; v = parent[v]) {
+            int u = parent[v];
+            flotChemin = flotChemin < capacite[u][v] - flot[u][v] ? flotChemin : capacite[u][v] - flot[u][v];
+        }
+
+        // Mettre à jour les flots et les capacités résiduelles
+        for (int v = destination; v != source; v = parent[v]) {
+            int u = parent[v];
+            flot[u][v] += flotChemin;
+            flot[v][u] -= flotChemin;
+        }
+
+        // Ajouter le flot du chemin au flot total
+        maxFlot += flotChemin;
+    }
+
+    printf("Flot maximal: %d\n", maxFlot);
+    return maxFlot;
+}
+
+// Fonction pour calculer les écarts
+int Ecart(int ordre, int flot[MAX][MAX], int capacite[MAX][MAX], int ecart[MAX][MAX]) {
+    for (int i = 0; i < ordre; i++) {
+        for (int j = 0; j < ordre; j++) {
+            ecart[i][j] = capacite[i][j] - flot[i][j];
+        }
+    }
+
+    return 0;
+}
+
+// Fonction pour rechercher un chemin augmentant (utilisation de BFS)
+int rechercheChemin(int ordre, int capacite[MAX][MAX], int flot[MAX][MAX], int source, int destination, int parent[]) {
+    int visite[MAX] = {0};
+    int queue[MAX], front = 0, rear = 0;
+
+    // Commence à partir de la source
+    queue[rear++] = source;
+    visite[source] = 1;
+    parent[source] = -1;
+
+    // Parcours BFS
+    while (front < rear) {
+        int u = queue[front++];
+
+        for (int v = 0; v < ordre; v++) {
+            if (!visite[v] && capacite[u][v] - flot[u][v] > 0) { // Capacité résiduelle positive
+                queue[rear++] = v;
+                parent[v] = u;
+                visite[v] = 1;
+                if (v == destination) {
+                    return 1; // Chemin trouvé
+                }
+            }
+        }
+    }
+
+    return 0; // Aucun chemin trouvé
+}
+
+int main() {
+    int ordre;
+    char sommets[MAX];
+    int capacite[MAX][MAX], flot[MAX][MAX], ecart[MAX][MAX];
+
+    // Lire les informations du fichier
+    lireFichier("../graph.txt", &ordre, sommets, capacite);
+
+    printf("Ordre du graphe: %d\n", ordre);
+    printf("Sommets: %s\n", sommets);
+
+    // Calculer le flot maximal avec l'algorithme de Ford-Fulkerson
+    felkurson(ordre, capacite, flot, 0, ordre - 1);
+
+    // Calculer les écarts
+    Ecart(ordre, flot, capacite, ecart);
+
+    printf("Matrice des ecarts:\n");
+    for (int i = 0; i < ordre; i++) {
+        for (int j = 0; j < ordre; j++) {
+            printf("%d ", ecart[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
