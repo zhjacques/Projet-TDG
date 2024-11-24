@@ -1,34 +1,4 @@
- Structure pour représenter un sommet (espèce ou ressource)
-typedef struct Sommet {
-    int id;
-    char nom[50];
-} Sommet;
-
-// Structure pour représenter un arc (relation de prédation ou autre interaction)
-typedef struct Arc {
-    int source;
-    int destination;
-    float poids; // Pondération (ex. : part de biomasse ou influence)
-} Arc;
-
-// Structure pour représenter un graphe
-typedef struct Graphe {
-    int nbSommets;
-    int nbArcs;
-    Sommet* sommets;
-    Arc* arcs;
-} Graphe;
-
-// Fonction pour initialiser un graphe
-Graphe* initialiserGraphe(int nbSommets, int nbArcs) {
-    Graphe* graphe = (Graphe*)malloc(sizeof(Graphe));
-    graphe->nbSommets = nbSommets;
-    graphe->nbArcs = nbArcs;
-    graphe->sommets = (Sommet*)malloc(nbSommets * sizeof(Sommet));
-    graphe->arcs = (Arc*)malloc(nbArcs * sizeof(Arc));
-    return graphe;
-}
-
+ 
 // Fonction pour ajouter un sommet
 void ajouterSommet(Graphe* graphe, int id, const char* nom) {
     graphe->sommets[id].id = id;
@@ -58,22 +28,4 @@ void afficherGraphe(Graphe* graphe) {
     }
 }
 
-// Fonction principale
-int main() {
-    // Exemple avec un graphe simple
-    Graphe* graphe = initialiserGraphe(3, 2);
 
-    // Ajouter des sommets
-    ajouterSommet(graphe, 0, "Herbe");
-    ajouterSommet(graphe, 1, "Lapin");
-    ajouterSommet(graphe, 2, "Renard");
-
-    // Ajouter des arcs
-    ajouterArc(graphe, 0, 0, 1, 0.8); // Herbe -> Lapin
-    ajouterArc(graphe, 1, 1, 2, 0.5); // Lapin -> Renard
-
-    // Afficher le graphe
-    afficherGraphe(graphe);
-
-    // Libération de mémoire
-    free(graphe->sommets);
