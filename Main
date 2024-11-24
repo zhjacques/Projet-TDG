@@ -157,7 +157,22 @@ void afficherGraphe(Graphe* graphe) {
                graphe->arcs[i].poids);
     }
 }
-
+// Fonction pour ajouter un arc
+void ajouterArc(Graphe* graphe, int index, int source, int destination, float poids) {
+    graphe->arcs[index].source = source;
+    graphe->arcs[index].destination = destination;
+    graphe->arcs[index].poids = poids;
+}// Fonction pour ajouter un arc
+void ajouterArc(Graphe* graphe, int index, int source, int destination, float poids) {
+    graphe->arcs[index].source = source;
+    graphe->arcs[index].destination = destination;
+    graphe->arcs[index].poids = poids;
+}// Fonction pour ajouter un arc
+void ajouterArc(Graphe* graphe, int index, int source, int destination, float poids) {
+    graphe->arcs[index].source = source;
+    graphe->arcs[index].destination = destination;
+    graphe->arcs[index].poids = poids;
+}
 // Fonction principale
 int main() {
     // Initialisation du réseau trophique
