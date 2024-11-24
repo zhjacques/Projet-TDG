@@ -1,137 +1,88 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
+#include <string.h>
 
+// Structure pour représenter un sommet (espèce ou ressource)
+typedef struct Sommet {
+    int id;
+    char nom[50];
+} Sommet;
 
-#define MAX 100
+// Structure pour représenter un arc (relation de prédation ou autre interaction)
+typedef struct Arc {
+    int source;
+    int destination;
+    float poids; // Pondération (ex. : part de biomasse ou influence)
+} Arc;
 
-int rechercheChemin(int ordre, int capacite[MAX][MAX], int flot[MAX][MAX], int source, int destination, int parent[]);
+// Structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;
+    int nbArcs;
+    Sommet* sommets;
+    Arc* arcs;
+} Graphe;
 
-// Fonction pour lire les données du fichier
-void lireFichier(const char* nomFichier, int* ordre, char sommets[], int capacite[MAX][MAX]) {
-    FILE* fichier = fopen(nomFichier, "r");
-    if (fichier == NULL) {
-        printf("Erreur : impossible d'ouvrir le fichier\n");
-        exit(1);
-    }
-
-    fscanf(fichier, "%d", ordre); // Lecture de l'ordre du graphe
-    fgetc(fichier); // Lecture du saut de ligne après l'ordre
-
-    // Lecture des noms de sommets
-    fgets(sommets, MAX, fichier);
-
-    // Lecture de la matrice des capacités
-    for (int i = 0; i < *ordre; i++) {
-        for (int j = 0; j < *ordre; j++) {
-            fscanf(fichier, "%d", &capacite[i][j]);
-        }
-    }
-
-    fclose(fichier);
+// Fonction pour initialiser un graphe
+Graphe* initialiserGraphe(int nbSommets, int nbArcs) {
+    Graphe* graphe = (Graphe*)malloc(sizeof(Graphe));
+    graphe->nbSommets = nbSommets;
+    graphe->nbArcs = nbArcs;
+    graphe->sommets = (Sommet*)malloc(nbSommets * sizeof(Sommet));
+    graphe->arcs = (Arc*)malloc(nbArcs * sizeof(Arc));
+    return graphe;
 }
 
-// Fonction de recherche du flot maximal (algorithme de Ford-Fulkerson)
-int felkurson(int ordre, int capacite[MAX][MAX], int flot[MAX][MAX], int source, int destination) {
-    int maxFlot = 0;
-    int parent[MAX]; // Tableau pour stocker le chemin
-
-
-    // Initialisation du flot à 0
-    for (int i = 0; i < ordre; i++) {
-        for (int j = 0; j < ordre; j++) {
-            flot[i][j] = 0;
-        }
-    }
-
-    // Tant qu'il existe un chemin augmentant
-    while (rechercheChemin(ordre, capacite, flot, source, destination, parent)) {
-        // Trouver la capacité minimale le long du chemin
-        int flotChemin = INT_MAX;
-        for (int v = destination; v != source; v = parent[v]) {
-            int u = parent[v];
-            flotChemin = flotChemin < capacite[u][v] - flot[u][v] ? flotChemin : capacite[u][v] - flot[u][v];
-        }
-
-        // Mettre à jour les flots et les capacités résiduelles
-        for (int v = destination; v != source; v = parent[v]) {
-            int u = parent[v];
-            flot[u][v] += flotChemin;
-            flot[v][u] -= flotChemin;
-        }
-
-        // Ajouter le flot du chemin au flot total
-        maxFlot += flotChemin;
-    }
-
-    printf("Flot maximal: %d\n", maxFlot);
-    return maxFlot;
+// Fonction pour ajouter un sommet
+void ajouterSommet(Graphe* graphe, int id, const char* nom) {
+    graphe->sommets[id].id = id;
+    strcpy(graphe->sommets[id].nom, nom);
 }
 
-// Fonction pour calculer les écarts
-int Ecart(int ordre, int flot[MAX][MAX], int capacite[MAX][MAX], int ecart[MAX][MAX]) {
-    for (int i = 0; i < ordre; i++) {
-        for (int j = 0; j < ordre; j++) {
-            ecart[i][j] = capacite[i][j] - flot[i][j];
-        }
-    }
-
-    return 0;
+// Fonction pour ajouter un arc
+void ajouterArc(Graphe* graphe, int index, int source, int destination, float poids) {
+    graphe->arcs[index].source = source;
+    graphe->arcs[index].destination = destination;
+    graphe->arcs[index].poids = poids;
 }
 
-// Fonction pour rechercher un chemin augmentant (utilisation de BFS)
-int rechercheChemin(int ordre, int capacite[MAX][MAX], int flot[MAX][MAX], int source, int destination, int parent[]) {
-    int visite[MAX] = {0};
-    int queue[MAX], front = 0, rear = 0;
-
-    // Commence à partir de la source
-    queue[rear++] = source;
-    visite[source] = 1;
-    parent[source] = -1;
-
-    // Parcours BFS
-    while (front < rear) {
-        int u = queue[front++];
-
-        for (int v = 0; v < ordre; v++) {
-            if (!visite[v] && capacite[u][v] - flot[u][v] > 0) { // Capacité résiduelle positive
-                queue[rear++] = v;
-                parent[v] = u;
-                visite[v] = 1;
-                if (v == destination) {
-                    return 1; // Chemin trouvé
-                }
-            }
-        }
+// Fonction pour afficher le graphe
+void afficherGraphe(Graphe* graphe) {
+    printf("Sommets du graphe:\n");
+    for (int i = 0; i < graphe->nbSommets; i++) {
+        printf("ID: %d, Nom: %s\n", graphe->sommets[i].id, graphe->sommets[i].nom);
     }
 
-    return 0; // Aucun chemin trouvé
+    printf("\nArcs du graphe:\n");
+    for (int i = 0; i < graphe->nbArcs; i++) {
+        printf("De %s à %s avec poids %.2f\n",
+               graphe->sommets[graphe->arcs[i].source].nom,
+               graphe->sommets[graphe->arcs[i].destination].nom,
+               graphe->arcs[i].poids);
+    }
 }
 
+// Fonction principale
 int main() {
-    int ordre;
-    char sommets[MAX];
-    int capacite[MAX][MAX], flot[MAX][MAX], ecart[MAX][MAX];
+    // Exemple avec un graphe simple
+    Graphe* graphe = initialiserGraphe(3, 2);
 
-    // Lire les informations du fichier
-    lireFichier("../graph.txt", &ordre, sommets, capacite);
+    // Ajouter des sommets
+    ajouterSommet(graphe, 0, "Herbe");
+    ajouterSommet(graphe, 1, "Lapin");
+    ajouterSommet(graphe, 2, "Renard");
 
-    printf("Ordre du graphe: %d\n", ordre);
-    printf("Sommets: %s\n", sommets);
+    // Ajouter des arcs
+    ajouterArc(graphe, 0, 0, 1, 0.8); // Herbe -> Lapin
+    ajouterArc(graphe, 1, 1, 2, 0.5); // Lapin -> Renard
 
-    // Calculer le flot maximal avec l'algorithme de Ford-Fulkerson
-    felkurson(ordre, capacite, flot, 0, ordre - 1);
+    // Afficher le graphe
+    afficherGraphe(graphe);
 
-    // Calculer les écarts
-    Ecart(ordre, flot, capacite, ecart);
-
-    printf("Matrice des ecarts:\n");
-    for (int i = 0; i < ordre; i++) {
-        for (int j = 0; j < ordre; j++) {
-            printf("%d ", ecart[i][j]);
-        }
-        printf("\n");
-    }
+    // Libération de mémoire
+    free(graphe->sommets);
+    free(graphe->arcs);
+    free(graphe);
 
     return 0;
 }
