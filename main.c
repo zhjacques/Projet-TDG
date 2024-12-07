@@ -43,7 +43,7 @@ int main() {
             printf("Le reseau n'est pas connexe.\n");
         }
         char dot_filename[100];
-        printf("\nEntrez le nom du fichier DOT à générer (par ex. reseau.dot) : ");
+        printf("\nEntrez le nom du fichier DOT a generer (par ex. reseau.dot) : ");
         scanf("%s", dot_filename);
         generate_dot_file(&graph, dot_filename);
         find_special_nodes(&graph);
