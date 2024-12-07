@@ -17,6 +17,9 @@ typedef struct {
 // Lecture et affichage
 int read_graph(const char *filename, Graph *graph);
 void display_graph(const Graph *graph);
+void display_successors(const Graph *graph, int node);
+void display_predecessors(const Graph *graph, int node);
+void generate_dot_file(const Graph *graph, const char *dot_filename);
 
 // Vérification de connexité
 int is_connected(const Graph *graph);

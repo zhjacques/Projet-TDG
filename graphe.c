@@ -49,7 +49,63 @@ void display_graph(const Graph *graph) {
         printf("\n");
     }
 }
+// Fonction pour afficher les successeurs d'un sommet
+void display_successors(const Graph *graph, int node) {
+    printf("\nSuccesseurs de %s : ", graph->node_names[node]);
+    int has_successors = 0;
+    for (int j = 0; j < graph->node_count; j++) {
+        if (graph->adjacency_matrix[node][j]) {
+            printf("%s ", graph->node_names[j]);
+            has_successors = 1;
+        }
+    }
+    if (!has_successors) {
+        printf("Aucun");
+    }
+    printf("\n");
+}
 
+// Fonction pour afficher les prédécesseurs d'un sommet
+void display_predecessors(const Graph *graph, int node) {
+    printf("\nPredecesseurs de %s : ", graph->node_names[node]);
+    int has_predecessors = 0;
+    for (int i = 0; i < graph->node_count; i++) {
+        if (graph->adjacency_matrix[i][node]) {
+            printf("%s ", graph->node_names[i]);
+            has_predecessors = 1;
+        }
+    }
+    if (!has_predecessors) {
+        printf("Aucun");
+    }
+    printf("\n");
+}
+
+// Fonction pour générer un fichier DOT
+void generate_dot_file(const Graph *graph, const char *dot_filename) {
+    FILE *file = fopen(dot_filename, "w");
+    if (!file) {
+        perror("Erreur lors de la creation du fichier DOT");
+        return;
+    }
+
+    fprintf(file, "digraph TrophicNetwork {\n");
+    for (int i = 0; i < graph->node_count; i++) {
+        fprintf(file, "    \"%s\";\n", graph->node_names[i]);
+    }
+
+    for (int i = 0; i < graph->node_count; i++) {
+        for (int j = 0; j < graph->node_count; j++) {
+            if (graph->adjacency_matrix[i][j]) {
+                fprintf(file, "    \"%s\" -> \"%s\";\n", graph->node_names[i], graph->node_names[j]);
+            }
+        }
+    }
+
+    fprintf(file, "}\n");
+    fclose(file);
+    printf("Fichier DOT genere : %s\n", dot_filename);
+}
 // DFS pour connexité
 void dfs(const Graph *graph, int node, int visited[]) {
     visited[node] = 1;

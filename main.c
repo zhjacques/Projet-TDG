@@ -10,20 +10,20 @@ int main() {
     char filename[100];
     int choice;
 
-    printf("Choisissez un réseau trophique à analyser :\n");
+    printf("Choisissez un reseau trophique a analyser :\n");
     printf("1. Foret\n2. Marin\n3. Mangrove\n");
     printf("Entrez votre choix : ");
     scanf("%d", &choice);
 
     switch (choice) {
         case 1:
-            strcpy(filename, "foret.txt");
+            strcpy(filename, "C:\\Users\\gatsi\\Documents\\GitHub\\Projet-TDG\\foret.txt");
             break;
         case 2:
-            strcpy(filename, "marin.txt");
+            strcpy(filename, "C:\\Users\\gatsi\\Documents\\GitHub\\Projet-TDG\\marin.txt");
             break;
         case 3:
-            strcpy(filename, "mangrove.txt");
+            strcpy(filename, "C:\\Users\\gatsi\\Documents\\GitHub\\Projet-TDG\\mangrove.txt");
             break;
         default:
             printf("Choix invalide.\n");
@@ -31,13 +31,21 @@ int main() {
     }
 
     if (read_graph(filename, &graph)) {
+        display_graph(&graph);
         printf("\n--- Analyse du Graphe ---\n");
+        for (int i = 0; i < graph.node_count; i++) {
+            display_successors(&graph, i);
+            display_predecessors(&graph, i);
+        }
         if (is_connected(&graph)) {
             printf("Le reseau est connexe.\n");
         } else {
             printf("Le reseau n'est pas connexe.\n");
         }
-
+        char dot_filename[100];
+        printf("\nEntrez le nom du fichier DOT à générer (par ex. reseau.dot) : ");
+        scanf("%s", dot_filename);
+        generate_dot_file(&graph, dot_filename);
         find_special_nodes(&graph);
 
         // Calcul des niveaux trophiques
