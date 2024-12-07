@@ -1,14 +1,1 @@
-digraph G {
-    "Arbres" -> "Cerfs";
-    "Arbres" -> "Lapins";
-    "Arbres" -> "Insectes";
-    "Plantes" -> "Cerfs";
-    "Plantes" -> "Lapins";
-    "Plantes" -> "Insectes";
-    "Cerfs" -> "Renards";
-    "Lapins" -> "Renards";
-    "Renards" -> "Oiseaux-de-proie";
-    "Renards" -> "Loups";
-    "Oiseaux-de-proie" -> "Loups";
-    "Loups" -> "Champignons";
-}
+
