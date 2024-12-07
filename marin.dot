@@ -1,9 +1,1 @@
-digraph reseau_trophique {
-    "Phytoplancton" -> "Zooplancton";
-    "Zooplancton" -> "Harengs";
-    "Zooplancton" -> "Sardines";
-    "Harengs" -> "Thons";
-    "Sardines" -> "Thons";
-    "Thons" -> "Requins";
-    "Requins" -> "Bactéries";
-}
+
