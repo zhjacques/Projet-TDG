@@ -291,3 +291,11 @@ void simulate_population_dynamics(Graph *graph, int initial_populations[], int t
         printf("\n");
     }
 }
+
+
+void estimate_species_importance(Graph *graph) {
+    for (int i = 0; i < graph->node_count; i++) {
+        int degree = get_node_degree(graph, i);
+        printf("Importance de %s : %d\n", graph->node_names[i], degree);
+    }
+}
