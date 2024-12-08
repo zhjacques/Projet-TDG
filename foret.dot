@@ -1,15 +1,46 @@
 digraph G {
+    // Titre du graphe
+    label="Réseau Trophique";
+fontsize=20;
+labelloc="top";
+
+// Styles globaux
+    node [style=filled, fontname="Arial"];
+edge [color=black];
+
+// Groupes de nœuds avec couleurs
+    "Arbres" [fillcolor="#8FBC8F", shape=ellipse]; // Vert clair
+    "Plantes" [fillcolor="#8FBC8F", shape=ellipse];
+"Insectes" [fillcolor="#FFD700", shape=ellipse]; // Jaune
+    "Cerfs" [fillcolor="#FFD700", shape=ellipse];
+"Lapins" [fillcolor="#FFD700", shape=ellipse];
+"Renards" [fillcolor="#FFA07A", shape=ellipse]; // Orange clair
+    "Oiseaux-de-proie" [fillcolor="#FFA07A", shape=ellipse];
+"Loups" [fillcolor="#FA8072", shape=ellipse]; // Rouge clair
+    "Champignons" [fillcolor="#D3D3D3", shape=ellipse]; // Gris
+    "Bactéries" [fillcolor="#D3D3D3", shape=ellipse];
+"Vers de terres" [fillcolor="#D3D3D3", shape=ellipse];
+
+// Connexions
     "Arbres" -> "Cerfs";
-    "Arbres" -> "Lapins";
-    "Arbres" -> "Insectes";
-    "Plantes" -> "Cerfs";
-    "Plantes" -> "Lapins";
-    "Plantes" -> "Insectes";
-    "Cerfs" -> "Renards";
-    "Lapins" -> "Renards";
-    "Renards" -> "Oiseaux-de-proie";
-    "Renards" -> "Loups";
-    "Oiseaux-de-proie" -> "Loups";
-    "Loups" -> "Champignons";
+"Arbres" -> "Lapins";
+"Arbres" -> "Insectes";
+"Plantes" -> "Cerfs";
+"Plantes" -> "Lapins";
+"Plantes" -> "Insectes";
+
+"Cerfs" -> "Renards";
+"Lapins" -> "Renards";
+"Lapins" -> "Oiseaux-de-proie";
+"Insectes" -> "Oiseaux-de-proie";
+
+"Renards" -> "Loups";
+"Oiseaux-de-proie" -> "Loups";
+
+"Loups" -> "Champignons";
+"Loups" -> "Bactéries";
+"Loups" -> "Vers de terres";
 }
+
+
 
