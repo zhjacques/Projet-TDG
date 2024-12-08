@@ -15,12 +15,13 @@ int main(void) {
         printf("6. Afficher les chaînes alimentaires\n");
         printf("7. Degradation\n");
         printf("8. Predation\n");
-        printf("9. Quitter\n");
+        printf("9.Estimation de l'importance relative d'une espèce au sein d'un reseau et simulation de la disparition d'une espece.\n");
+        printf("10. Quitter\n");
         printf("Votre choix : ");
         int choix;
         scanf("%d", &choix);
 
-        if (choix == 9) {
+        if (choix == 10) {
             printf("Au revoir !\n");
             break;
         }
@@ -62,17 +63,17 @@ int main(void) {
         }
 
         if (choix == 3) {
-    int components[MAX_NODES];
-    int connected = is_connected(&graph, components);
-    if (connected) {
-        printf("Le réseau est connexe.\n");
-    } else {
-        printf("Le réseau n'est pas connexe. Composantes connexes :\n");
-        for (int i = 0; i < graph.node_count; i++) {
-            printf("Sommet %s dans la composante %d\n", graph.node_names[i], components[i]);
+            int components[MAX_NODES];
+            int connected = is_connected(&graph, components);
+            if (connected) {
+                printf("Le réseau est connexe.\n");
+            } else {
+                printf("Le réseau n'est pas connexe. Composantes connexes :\n");
+                for (int i = 0; i < graph.node_count; i++) {
+                    printf("Sommet %s dans la composante %d\n", graph.node_names[i], components[i]);
+                }
+            }
         }
-    }
-}
 
         if (choix == 4) {
             find_special_nodes(&graph);
@@ -99,6 +100,15 @@ int main(void) {
 
         if (choix == 8) {
             // Code pour la prédation
+        }
+
+        if (choix == 9) {
+            estimate_species_importance(&graph);
+            char species_name[50];
+            printf("Entrez le nom d'une espèce à supprimer : ");
+            scanf("%s", species_name);
+            simulate_extinction(&graph, species_name);
+            estimate_species_importance(&graph);
         }
     }
     return 0;
