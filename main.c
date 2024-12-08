@@ -36,13 +36,13 @@ int main(void) {
 
             switch (reseau) {
                 case 1:
-                    strcpy(filename, "C:\\Users\\gatsi\\Documents\\GitHub\\Projet-TDG\\foret.txt");
+                    strcpy(filename, "../foret.txt");
                     break;
                 case 2:
-                    strcpy(filename, "C:\\Users\\gatsi\\Documents\\GitHub\\Projet-TDG\\marin.txt");
+                    strcpy(filename, "../marin.txt");
                     break;
                 case 3:
-                    strcpy(filename, "C:\\Users\\gatsi\\Documents\\GitHub\\Projet-TDG\\mangrove.txt");
+                    strcpy(filename, "../mangrove.txt");
                     break;
                 default:
                     printf("Choix invalide.\n");
@@ -87,9 +87,17 @@ int main(void) {
             } else if (choix == 7) {
                 // Code pour afficher les chaînes alimentaires
             } else if (choix == 8) {
-                // Code pour la dégradation
+                float degra;
+                printf("Entrer le pourcentage souhaité : ");
+                scanf("%f", &degra);
+                printf("\n Degradation : ");
+                appliquer_degradation(&graph, degra);
             } else if (choix == 9) {
-                // Code pour la prédation
+                float preda;
+                printf("Entrer le pourcentage souhaité : ");
+                scanf("%f", &preda);
+                predation_consommation(&graph, preda);
+                display_graph(&graph);
             } else if (choix == 10) {
                 // Code pour l'estimation de l'importance et la simulation de la disparition
             }
