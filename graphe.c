@@ -11,7 +11,7 @@
 int read_graph(const char *filename, Graph *graph) {
     FILE *file = fopen(filename, "r");
     if (!file) {
-        perror("Erreur lors de l'ouverture du fichier");
+        printf("Erreur lors de l'ouverture du fichier %s\n", filename);
         return 0;
     }
 
@@ -25,6 +25,16 @@ int read_graph(const char *filename, Graph *graph) {
         for (int j = 0; j < graph->node_count; j++) {
             fscanf(file, "%d", &graph->adjacency_matrix[i][j]);
         }
+    }
+
+    for (int i = 0; i < graph->node_count; i++) {
+        fscanf(file, "%f %f %f %f %f %f",
+               &graph->node_properties[i].biomasse_kg,
+               &graph->node_properties[i].flux_W,
+               &graph->node_properties[i].co2_emis,
+               &graph->node_properties[i].co2_absorbe,
+               &graph->node_properties[i].capacite_portage,
+               &graph->node_properties[i].degradation_habitat);
     }
 
     fclose(file);
@@ -250,17 +260,17 @@ void simulate_population_dynamics(Graph *graph, int initial_populations[], int t
     int carrying_capacities[MAX_NODES];
     double predation[MAX_NODES][MAX_NODES];
 
-    // Initialiser les paramètres
+    // Initialize parameters
     for (int i = 0; i < graph->node_count; i++) {
         populations[i] = initial_populations[i];
-        growth_rates[i] = 0.1; // Par défaut, faible croissance
-        carrying_capacities[i] = 100; // Par défaut, capacité de charge de 100
+        growth_rates[i] = 0.1; // Default growth rate
+        carrying_capacities[i] = graph->node_properties[i].capacite_portage;
         for (int j = 0; j < graph->node_count; j++) {
-            predation[i][j] = (graph->adjacency_matrix[i][j]) ? 0.01 : 0.0;
+            predation[i][j] = 0.0; // Initialize predation matrix
         }
     }
 
-    // Simulation sur plusieurs étapes
+    // Simulation over multiple time steps
     printf("\n--- Simulation Dynamique ---\n");
     printf("Temps\t");
     for (int i = 0; i < graph->node_count; i++) {
@@ -271,19 +281,20 @@ void simulate_population_dynamics(Graph *graph, int initial_populations[], int t
     for (int t = 0; t < time_steps; t++) {
         printf("%d\t", t);
         for (int i = 0; i < graph->node_count; i++) {
-            // Calcul de la prédation
+            // Calculate predation loss
             double predation_loss = 0.0;
             for (int j = 0; j < graph->node_count; j++) {
-                if (graph->adjacency_matrix[i][j]) {
-                    predation_loss += predation[i][j] * populations[i] * populations[j];
+                if (graph->adjacency_matrix[j][i]) {
+                    predation_loss += predation[j][i] * populations[j];
                 }
             }
 
-            // Mise à jour de la population
+            // Update population with growth and predation
             double growth = growth_rates[i] * populations[i] * (1 - ((double)populations[i] / carrying_capacities[i]));
-            populations[i] += (int)(growth - predation_loss);
+            double habitat_impact = graph->node_properties[i].degradation_habitat;
+            populations[i] += (int)(growth - predation_loss - habitat_impact);
 
-            // Empêcher des populations négatives
+            // Prevent negative populations
             if (populations[i] < 0) populations[i] = 0;
 
             printf("%d\t", populations[i]);
@@ -291,7 +302,6 @@ void simulate_population_dynamics(Graph *graph, int initial_populations[], int t
         printf("\n");
     }
 }
-
 int get_node_degree(Graph *graph, int node_index) {
 // Assuming you have a way to calculate or access the degree of a node
 // This is just a placeholder implementation
@@ -309,6 +319,41 @@ void estimate_species_importance(Graph *graph) {
         int degree = get_node_degree(graph, i);
         printf("Importance de %s : %d\n", graph->node_names[i], degree);
     }
+}
+
+// Fonction récursive pour imprimer les ancêtres d'un nœud
+void print_ancestors(const Graph *graph, int node, int visited[], int level) {
+    visited[node] = 1;
+    for (int i = 0; i < graph->node_count; i++) {
+        if (graph->adjacency_matrix[i][node] && !visited[i]) {
+            for (int j = 0; j < level; j++) {
+                printf("  ");
+            }
+            printf("%s\n", graph->node_names[i]);
+            print_ancestors(graph, i, visited, level + 1);
+        }
+    }
+    visited[node] = 0;
+}
+
+// Fonction pour afficher les chaînes alimentaires dont une espèce dépend
+void display_food_chains(const Graph *graph, const char *species_name) {
+    int node = -1;
+    for (int i = 0; i < graph->node_count; i++) {
+        if (strcmp(graph->node_names[i], species_name) == 0) {
+            node = i;
+            break;
+        }
+    }
+
+    if (node == -1) {
+        printf("Espèce %s introuvable dans le graphe.\n", species_name);
+        return;
+    }
+
+    printf("\n--- Chaînes alimentaires pour %s ---\n", species_name);
+    int visited[MAX_NODES] = {0};
+    print_ancestors(graph, node, visited, 0);
 }
 
 

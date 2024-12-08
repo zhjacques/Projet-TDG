@@ -21,29 +21,25 @@ digraph Mangrove {
     "Champignons" [color=gray];
     "Insectes décomposeurs" [color=gray];
 
-    // Relations
-    "Palétuviers" -> "Escargots de mangrove";
-    "Palétuviers" -> "Crabes";
-    "Palétuviers" -> "Crevettes"; // Connexion ajoutée
-    "Algues" -> "Crabes";
-    "Algues" -> "Crevettes";
-    "Algues" -> "Poissons herbivores\n(Muges)";
-    "Phytoplancton" -> "Poissons herbivores\n(Muges)";
-    "Phytoplancton" -> "Crevettes"; // Connexion ajoutée
-    "Crabes" -> "Poissons carnivores\n(Perches, Barracudas)";
-    "Crevettes" -> "Poissons carnivores\n(Perches, Barracudas)";
-    "Poissons herbivores\n(Muges)" -> "Poissons carnivores\n(Perches, Barracudas)";
-    "Poissons carnivores\n(Perches, Barracudas)" -> "Oiseaux piscivores\n(Hérons, Pélicans)";
-    "Poissons carnivores\n(Perches, Barracudas)" -> "Reptiles\n(Varans)";
-    "Oiseaux piscivores\n(Hérons, Pélicans)" -> "Oiseaux de proie\n(Aigles pêcheurs)";
-    "Oiseaux piscivores\n(Hérons, Pélicans)" -> "Crocodiles";
-    "Reptiles\n(Varans)" -> "Crocodiles";
+    // Relations avec pondération en décimal
+    "Palétuviers" -> "Escargots de mangrove" [label="0.37"];
+    "Palétuviers" -> "Crabes" [label="0.47"];
+    "Palétuviers" -> "Crevettes" [label="0.13"];
+    "Algues" -> "Crabes" [label="0.21"];
+    "Algues" -> "Crevettes" [label="0.26"];
+    "Algues" -> "Poissons herbivores\n(Muges)" [label="0.89"];
+    "Phytoplancton" -> "Poissons herbivores\n(Muges)" [label="0.10"];
+    "Phytoplancton" -> "Crevettes" [label="0.26"];
+    "Crabes" -> "Poissons carnivores\n(Perches, Barracudas)" [label="0.12"];
+    "Crevettes" -> "Poissons carnivores\n(Perches, Barracudas)" [label="0.10"];
+    "Poissons herbivores\n(Muges)" -> "Poissons carnivores\n(Perches, Barracudas)" [label="0.05"];
+    "Poissons carnivores\n(Perches, Barracudas)" -> "Oiseaux piscivores\n(Hérons, Pélicans)" [label="0.28"];
+    "Poissons carnivores\n(Perches, Barracudas)" -> "Reptiles\n(Varans)" [label="0.52"];
+    "Oiseaux piscivores\n(Hérons, Pélicans)" -> "Oiseaux de proie\n(Aigles pêcheurs)" [label="0.17"];
+    "Oiseaux piscivores\n(Hérons, Pélicans)" -> "Crocodiles" [label="0.12"];
+    "Reptiles\n(Varans)" -> "Crocodiles" [label="0.14"];
 
-    "Crocodiles" -> "Bactéries";
-    "Crocodiles" -> "Champignons";
-    "Crocodiles" -> "Insectes décomposeurs";
+    "Crocodiles" -> "Bactéries" [label="0.01"];
+    "Crocodiles" -> "Champignons" [label="0.02"];
+    "Crocodiles" -> "Insectes décomposeurs" [label="0.01"];
 }
-
-
-
-

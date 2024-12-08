@@ -21,26 +21,26 @@ edge [color=black];
     "Bactéries" [fillcolor="#D3D3D3", shape=ellipse];
 "Vers de terres" [fillcolor="#D3D3D3", shape=ellipse];
 
-// Connexions
-    "Arbres" -> "Cerfs";
-"Arbres" -> "Lapins";
-"Arbres" -> "Insectes";
-"Plantes" -> "Cerfs";
-"Plantes" -> "Lapins";
-"Plantes" -> "Insectes";
+// Connexions avec pondérations
+    "Arbres" -> "Cerfs" [label="0.03"]; // 3% arbres
+    "Plantes" -> "Cerfs" [label="0.94"]; // 94% plantes
 
-"Cerfs" -> "Renards";
-"Lapins" -> "Renards";
-"Lapins" -> "Oiseaux-de-proie";
-"Insectes" -> "Oiseaux-de-proie";
+"Arbres" -> "Lapins" [label="0.06"]; // 6% arbres
+    "Plantes" -> "Lapins" [label="0.92"]; // 92% plantes
 
-"Renards" -> "Loups";
-"Oiseaux-de-proie" -> "Loups";
+"Arbres" -> "Insectes" [label="0.10"]; // 10% arbres
+    "Plantes" -> "Insectes" [label="0.80"]; // 80% plantes
 
-"Loups" -> "Champignons";
-"Loups" -> "Bactéries";
-"Loups" -> "Vers de terres";
+"Lapins" -> "Renards" [label="0.03"]; // 3% lapins
+    "Cerfs" -> "Renards" [label="0.02"]; // 2% cerfs
+
+"Lapins" -> "Oiseaux-de-proie" [label="0.50"]; // 50% lapins
+    "Insectes" -> "Oiseaux-de-proie" [label="0.05"]; // 5% insectes
+
+"Oiseaux-de-proie" -> "Loups" [label="0.05"]; // 5% oiseaux
+    "Renards" -> "Loups" [label="0.24"]; // 24% renards
+
+"Loups" -> "Champignons" [label="0.01"]; // 80% loups
+    "Loups" -> "Bactéries" [label="0.02"]; // 50% loups
+    "Loups" -> "Vers de terres" [label="0.03"]; // 21% loups
 }
-
-
-
