@@ -299,3 +299,16 @@ void estimate_species_importance(Graph *graph) {
         printf("Importance de %s : %d\n", graph->node_names[i], degree);
     }
 }
+
+int get_node_degree(Graph *graph, int node_index) {
+// Assuming you have a way to calculate or access the degree of a node
+// This is just a placeholder implementation
+    int degree = 0;
+    for (int i = 0; i < graph->node_count; i++) {
+        if (graph->adjacency_matrix[node_index][i] != 0) {
+            degree++;
+        }
+    }
+
+    return degree;
+}
