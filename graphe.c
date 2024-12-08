@@ -291,15 +291,6 @@ void simulate_population_dynamics(Graph *graph, int initial_populations[], int t
         printf("\n");
     }
 }
-
-
-void estimate_species_importance(Graph *graph) {
-    for (int i = 0; i < graph->node_count; i++) {
-        int degree = get_node_degree(graph, i);
-        printf("Importance de %s : %d\n", graph->node_names[i], degree);
-    }
-}
-
 int get_node_degree(Graph *graph, int node_index) {
 // Assuming you have a way to calculate or access the degree of a node
 // This is just a placeholder implementation
@@ -312,3 +303,12 @@ int get_node_degree(Graph *graph, int node_index) {
 
     return degree;
 }
+
+
+void estimate_species_importance(Graph *graph) {
+    for (int i = 0; i < graph->node_count; i++) {
+        int degree = get_node_degree(graph, i);
+        printf("Importance de %s : %d\n", graph->node_names[i], degree);
+    }
+}
+
