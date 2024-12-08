@@ -18,6 +18,7 @@ void display_predecessors(const Graph *graph, int node);
 // Afficher un fichier DOT dans la console
 void afficher_dot(const char *dot_filename);
 
+void estimate_species_importance(Graph *graph);
 
 
 // Vérification de connexité
