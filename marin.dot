@@ -1,0 +1,26 @@
+digraph reseau_trophique {
+    label="Réseau Trophique Marin";
+    labelloc="top";
+    fontsize=20;
+
+    // Couleurs des groupes
+    node [style=filled, fontname="Arial"];
+    "Phytoplancton" [color=lightgreen];
+    "Zooplancton" [color=lightgreen];
+    "Harengs" [color=gold];
+    "Sardines" [color=gold];
+    "Thons" [color=orangered];
+    "Requins" [color=orangered];
+    "Bactéries" [color=gray];
+
+    // Relations
+    "Phytoplancton" -> "Zooplancton";
+    "Zooplancton" -> "Harengs";
+    "Zooplancton" -> "Sardines";
+    "Harengs" -> "Thons";
+    "Sardines" -> "Thons";
+    "Sardines" -> "Requins";
+    "Thons" -> "Bactéries";
+    "Requins" -> "Bactéries";
+}
+

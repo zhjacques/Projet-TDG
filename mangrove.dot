@@ -1,0 +1,49 @@
+digraph Mangrove {
+    label="Réseau Trophique d'une Mangrove";
+    labelloc="top";
+    fontsize=20;
+
+    // Couleurs des groupes
+    node [style=filled, fontname="Arial"];
+    "Palétuviers" [color=lightgreen];
+    "Algues" [color=lightgreen];
+    "Phytoplancton" [color=lightgreen];
+    "Escargots de mangrove" [color=gold];
+    "Crabes" [color=gold];
+    "Crevettes" [color=gold];
+    "Poissons herbivores\n(Muges)" [color=gold];
+    "Poissons carnivores\n(Perches, Barracudas)" [color=orange];
+    "Oiseaux piscivores\n(Hérons, Pélicans)" [color=orangered];
+    "Reptiles\n(Varans)" [color=orangered];
+    "Oiseaux de proie\n(Aigles pêcheurs)" [color=red];
+    "Crocodiles" [color=red];
+    "Bactéries" [color=gray];
+    "Champignons" [color=gray];
+    "Insectes décomposeurs" [color=gray];
+
+    // Relations
+    "Palétuviers" -> "Escargots de mangrove";
+    "Palétuviers" -> "Crabes";
+    "Palétuviers" -> "Crevettes"; // Connexion ajoutée
+    "Algues" -> "Crabes";
+    "Algues" -> "Crevettes";
+    "Algues" -> "Poissons herbivores\n(Muges)";
+    "Phytoplancton" -> "Poissons herbivores\n(Muges)";
+    "Phytoplancton" -> "Crevettes"; // Connexion ajoutée
+    "Crabes" -> "Poissons carnivores\n(Perches, Barracudas)";
+    "Crevettes" -> "Poissons carnivores\n(Perches, Barracudas)";
+    "Poissons herbivores\n(Muges)" -> "Poissons carnivores\n(Perches, Barracudas)";
+    "Poissons carnivores\n(Perches, Barracudas)" -> "Oiseaux piscivores\n(Hérons, Pélicans)";
+    "Poissons carnivores\n(Perches, Barracudas)" -> "Reptiles\n(Varans)";
+    "Oiseaux piscivores\n(Hérons, Pélicans)" -> "Oiseaux de proie\n(Aigles pêcheurs)";
+    "Oiseaux piscivores\n(Hérons, Pélicans)" -> "Crocodiles";
+    "Reptiles\n(Varans)" -> "Crocodiles";
+
+    "Crocodiles" -> "Bactéries";
+    "Crocodiles" -> "Champignons";
+    "Crocodiles" -> "Insectes décomposeurs";
+}
+
+
+
+
