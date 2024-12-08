@@ -98,27 +98,30 @@ void afficher_dot(const char *dot_filename) {
 }
 
 
-// DFS pour connexité
-void dfs(const Graph *graph, int node, int visited[]) {
-    visited[node] = 1;
-    for (int i = 0; i < graph->node_count; i++) {
-        if (graph->adjacency_matrix[node][i] && !visited[i]) {
-            dfs(graph, i, visited);
-        }
-    }
-}
-
-// Vérification de la connexité
-int is_connected(const Graph *graph) {
+// Vérification de la connexité et identification des composantes connexes
+int is_connected(const Graph *graph, int components[]) {
     int visited[MAX_NODES] = {0};
-    dfs(graph, 0, visited);
+    int component_id = 0;
 
     for (int i = 0; i < graph->node_count; i++) {
         if (!visited[i]) {
-            return 0;
+            dfs(graph, i, visited, component_id, components);
+            component_id++;
         }
     }
-    return 1;
+
+    return component_id == 1; // Retourne vrai si le graphe est connexe
+}
+
+// DFS modifié pour marquer les composantes connexes
+void dfs(const Graph *graph, int node, int visited[], int component_id, int components[]) {
+    visited[node] = 1;
+    components[node] = component_id;
+    for (int i = 0; i < graph->node_count; i++) {
+        if (graph->adjacency_matrix[node][i] && !visited[i]) {
+            dfs(graph, i, visited, component_id, components);
+        }
+    }
 }
 
 // Recherche de producteurs primaires, prédateurs apex, etc.

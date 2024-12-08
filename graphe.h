@@ -21,14 +21,12 @@ void afficher_dot(const char *dot_filename);
 
 
 // Vérification de connexité
-int is_connected(const Graph *graph);
-
+int is_connected(const Graph *graph, int components[]);
 // Recherche de sommets particuliers
 void find_special_nodes(const Graph *graph);
 
 // Exploration DFS
-void dfs(const Graph *graph, int node, int visited[]);
-
+void dfs(const Graph *graph, int node, int visited[], int component_id, int components[]);
 // Calcul des niveaux trophiques
 void calculate_trophic_levels(const Graph *graph, int levels[]);
 

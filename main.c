@@ -7,8 +7,8 @@ int main(void) {
     Graph graph;
     while (1) {
         printf("\n=== MENU PRINCIPAL ===\n");
-        printf("1. Charger un réseau et afficher ses listes d'adjacence\n");
-        printf("2. Calculer et afficher les prédécesseurs\n");
+        printf("1. Charger un reseau et afficher ses listes d'adjacence\n");
+        printf("2. Calculer et afficher les predecesseurs\n");
         printf("3. Détecter les composantes connexes\n");
         printf("4. Analyser les sommets\n");
         printf("5. Calculer les niveaux trophiques\n");
@@ -62,12 +62,17 @@ int main(void) {
         }
 
         if (choix == 3) {
-            if (is_connected(&graph)) {
-                printf("Le réseau est connexe.\n");
-            } else {
-                printf("Le réseau n'est pas connexe.\n");
-            }
+    int components[MAX_NODES];
+    int connected = is_connected(&graph, components);
+    if (connected) {
+        printf("Le réseau est connexe.\n");
+    } else {
+        printf("Le réseau n'est pas connexe. Composantes connexes :\n");
+        for (int i = 0; i < graph.node_count; i++) {
+            printf("Sommet %s dans la composante %d\n", graph.node_names[i], components[i]);
         }
+    }
+}
 
         if (choix == 4) {
             find_special_nodes(&graph);
@@ -89,24 +94,11 @@ int main(void) {
         }
 
         if (choix == 7) {
-            char species_name[50];
-            printf("Entrez le nom d'une espèce à supprimer : ");
-            scanf("%s", species_name);
-            simulate_extinction(&graph, species_name);
-            display_graph(&graph);
+            // Code pour la dégradation
         }
 
         if (choix == 8) {
-            int initial_populations[MAX_NODES];
-            int time_steps;
-            printf("Entrez les populations initiales pour chaque espèce :\n");
-            for (int i = 0; i < graph.node_count; i++) {
-                printf("%s : ", graph.node_names[i]);
-                scanf("%d", &initial_populations[i]);
-            }
-            printf("Entrez le nombre de pas de temps : ");
-            scanf("%d", &time_steps);
-            simulate_population_dynamics(&graph, initial_populations, time_steps);
+            // Code pour la prédation
         }
     }
     return 0;
