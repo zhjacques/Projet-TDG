@@ -291,6 +291,7 @@ void simulate_population_dynamics(Graph *graph, int initial_populations[], int t
         printf("\n");
     }
 }
+
 int get_node_degree(Graph *graph, int node_index) {
 // Assuming you have a way to calculate or access the degree of a node
 // This is just a placeholder implementation
@@ -303,12 +304,61 @@ int get_node_degree(Graph *graph, int node_index) {
 
     return degree;
 }
-
-
 void estimate_species_importance(Graph *graph) {
     for (int i = 0; i < graph->node_count; i++) {
         int degree = get_node_degree(graph, i);
         printf("Importance de %s : %d\n", graph->node_names[i], degree);
     }
 }
+
+
+
+
+void appliquer_degradation(Graph *graph, float facteur_degradation)
+{
+    for (int i = 0; i < graph->node_count; i++)
+    {
+        graph->node_properties[i].biomasse_kg *= (1 - facteur_degradation);
+        graph->node_properties[i].flux_W *= (1 - facteur_degradation);
+        graph->node_properties[i].co2_emis *= (1 - facteur_degradation);
+        graph->node_properties[i].co2_absorbe *= (1 - facteur_degradation);
+        graph->node_properties[i].capacite_portage *= (1 - facteur_degradation);
+
+        // Affichage des propriétés mises à jour
+        printf("Node %d (%s):\n", i, graph->node_names[i]);
+        printf("  Biomasse (kg): %.2f\n", graph->node_properties[i].biomasse_kg);
+        printf("  Flux (W): %.2f\n", graph->node_properties[i].flux_W);
+        printf("  CO2 emis: %.2f\n", graph->node_properties[i].co2_emis);
+        printf("  CO2 absorbe: %.2f\n", graph->node_properties[i].co2_absorbe);
+        printf("  Capacite de portage: %.2f\n\n", graph->node_properties[i].capacite_portage);
+    }
+}
+
+
+
+void predation_consommation(Graph *graph, float facteur_predation)
+{
+    for (int i = 0; i < graph->node_count; i++)  // Pour chaque sommet
+    {
+        if (graph->node_properties[i].flux_W > 0)  // Si le sommet i est un consommateur (ayant un flux positif)
+        {
+            for (int j = 0; j < graph->node_count; j++)  // Parcourir tous les voisins
+            {
+                if (graph->adjacency_matrix[i][j] != 0)  // Si i et j sont connectés
+                {
+                    float reduction_biomasse = graph->node_properties[i].flux_W * facteur_predation;  // Calcul de la réduction
+                    graph->node_properties[j].biomasse_kg -= reduction_biomasse;  // Réduire la biomasse du voisin
+
+                    // Éviter des valeurs négatives pour la biomasse
+                    if (graph->node_properties[j].biomasse_kg < 0)
+                    {
+                        graph->node_properties[j].biomasse_kg = 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 
