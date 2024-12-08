@@ -1,0 +1,24 @@
+digraph TrophicNetwork {
+    "Arbres";
+    "Plantes";
+    "Cerfs";
+    "Lapins";
+    "Insectes";
+    "Renards";
+    "Oiseaux-de-proie";
+    "Loups";
+    "Champignons";
+    "Arbres" -> "Cerfs";
+    "Arbres" -> "Lapins";
+    "Arbres" -> "Insectes";
+    "Plantes" -> "Cerfs";
+    "Plantes" -> "Lapins";
+    "Plantes" -> "Insectes";
+    "Cerfs" -> "Renards";
+    "Lapins" -> "Renards";
+    "Lapins" -> "Oiseaux-de-proie";
+    "Insectes" -> "Oiseaux-de-proie";
+    "Renards" -> "Loups";
+    "Oiseaux-de-proie" -> "Loups";
+    "Loups" -> "Champignons";
+}

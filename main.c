@@ -42,11 +42,11 @@ int main() {
         } else {
             printf("Le reseau n'est pas connexe.\n");
         }
+        // Afficher un fichier DOT existant
         char dot_filename[100];
-        printf("\nEntrez le nom du fichier DOT a generer (par ex. reseau.dot) : ");
+        printf("\nEntrez le nom du fichier DOT a afficher (par ex. reseau.dot) : ");
         scanf("%s", dot_filename);
-        generate_dot_file(&graph, dot_filename);
-        find_special_nodes(&graph);
+        afficher_dot(dot_filename);
 
         // Calcul des niveaux trophiques
         int levels[MAX_NODES];

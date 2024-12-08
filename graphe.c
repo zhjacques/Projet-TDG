@@ -1,7 +1,3 @@
-//
-// Created by gatsi on 07/12/2024.
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -81,30 +77,23 @@ void display_predecessors(const Graph *graph, int node) {
     printf("\n");
 }
 
-// Fonction pour générer un fichier DOT
-void generate_dot_file(const Graph *graph, const char *dot_filename) {
-    FILE *file = fopen(dot_filename, "w");
+// Affiche le contenu d'un fichier DOT
+void afficher_dot(const char *dot_filename) {
+    FILE *file = fopen(dot_filename, "r");
     if (!file) {
-        perror("Erreur lors de la creation du fichier DOT");
+        perror("Erreur lors de l'ouverture du fichier DOT");
         return;
     }
 
-    fprintf(file, "digraph TrophicNetwork {\n");
-    for (int i = 0; i < graph->node_count; i++) {
-        fprintf(file, "    \"%s\";\n", graph->node_names[i]);
+    printf("\n--- Contenu du fichier DOT : %s ---\n", dot_filename);
+
+    char line[1024];
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line); // Affiche chaque ligne du fichier DOT
     }
 
-    for (int i = 0; i < graph->node_count; i++) {
-        for (int j = 0; j < graph->node_count; j++) {
-            if (graph->adjacency_matrix[i][j]) {
-                fprintf(file, "    \"%s\" -> \"%s\";\n", graph->node_names[i], graph->node_names[j]);
-            }
-        }
-    }
-
-    fprintf(file, "}\n");
     fclose(file);
-    printf("Fichier DOT genere : %s\n", dot_filename);
+    printf("\n--- Fin du fichier DOT ---\n");
 }
 // DFS pour connexité
 void dfs(const Graph *graph, int node, int visited[]) {
