@@ -1,6 +1,3 @@
-//
-// Created by gatsi on 07/12/2024.
-//
 #include <stdio.h>
 #include <string.h>
 #include "graphe.h"
@@ -47,6 +44,7 @@ int main() {
         printf("\nEntrez le nom du fichier DOT a afficher (par ex. reseau.dot) : ");
         scanf("%s", dot_filename);
         afficher_dot(dot_filename);
+
 
         // Calcul des niveaux trophiques
         int levels[MAX_NODES];

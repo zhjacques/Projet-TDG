@@ -1,7 +1,3 @@
-//
-// Created by gatsi on 07/12/2024.
-//
-
 #ifndef PROJET_TDG_GRAPHE_H
 #define PROJET_TDG_GRAPHE_H
 
@@ -21,6 +17,8 @@ void display_successors(const Graph *graph, int node);
 void display_predecessors(const Graph *graph, int node);
 // Afficher un fichier DOT dans la console
 void afficher_dot(const char *dot_filename);
+
+
 
 // Vérification de connexité
 int is_connected(const Graph *graph);

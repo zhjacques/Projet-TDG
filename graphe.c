@@ -6,6 +6,7 @@
 #include <math.h>
 
 
+
 // Lecture du graphe depuis un fichier
 int read_graph(const char *filename, Graph *graph) {
     FILE *file = fopen(filename, "r");
@@ -95,6 +96,8 @@ void afficher_dot(const char *dot_filename) {
     fclose(file);
     printf("\n--- Fin du fichier DOT ---\n");
 }
+
+
 // DFS pour connexité
 void dfs(const Graph *graph, int node, int visited[]) {
     visited[node] = 1;
