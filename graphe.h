@@ -4,10 +4,21 @@
 
 #define MAX_NODES 20
 
+
+
+typedef struct {
+    float biomasse_kg;
+    float flux_W;
+    float co2_emis;
+    float co2_absorbe;
+    float capacite_portage;
+} NodeProperties;
+
 typedef struct {
     int adjacency_matrix[MAX_NODES][MAX_NODES];
     char node_names[MAX_NODES][50];
     int node_count;
+    NodeProperties node_properties[MAX_NODES];  // Tableau des propriétés des nœuds
 } Graph;
 
 // Lecture et affichage
@@ -19,7 +30,8 @@ void display_predecessors(const Graph *graph, int node);
 void afficher_dot(const char *dot_filename);
 
 void estimate_species_importance(Graph *graph);
-
+void appliquer_degradation(Graph *graph, float facteur_degradation);
+void predation_consommation(Graph *graph, float facteur_predation);
 
 // Vérification de connexité
 int is_connected(const Graph *graph, int components[]);
