@@ -72,7 +72,7 @@ void display_successors(const Graph *graph, int node) {
     printf("\n");
 }
 
-// Fonction pour afficher les prédécesseurs d'un sommet
+// Fonction pour afficher les predecesseurs d'un sommet
 void display_predecessors(const Graph *graph, int node) {
     printf("\nPredecesseurs de %s : ", graph->node_names[node]);
     int has_predecessors = 0;
@@ -108,7 +108,7 @@ void afficher_dot(const char *dot_filename) {
 }
 
 
-// Vérification de la connexité et identification des composantes connexes
+// Verification de la connexite et identification des composantes connexes
 int is_connected(const Graph *graph, int components[]) {
     int visited[MAX_NODES] = {0};
     int component_id = 0;
@@ -123,7 +123,7 @@ int is_connected(const Graph *graph, int components[]) {
     return component_id == 1; // Retourne vrai si le graphe est connexe
 }
 
-// DFS modifié pour marquer les composantes connexes
+// DFS modifie pour marquer les composantes connexes
 void dfs(const Graph *graph, int node, int visited[], int component_id, int components[]) {
     visited[node] = 1;
     components[node] = component_id;
@@ -134,7 +134,7 @@ void dfs(const Graph *graph, int node, int visited[], int component_id, int comp
     }
 }
 
-// Recherche de producteurs primaires, prédateurs apex, etc.
+// Recherche de producteurs primaires, predateurs apex, etc.
 void find_special_nodes(const Graph *graph) {
     printf("\n--- Recherche de sommets particuliers ---\n");
 
@@ -184,7 +184,7 @@ void find_special_nodes(const Graph *graph) {
 // Calcul des niveaux trophiques
 void calculate_trophic_levels(const Graph *graph, int levels[]) {
     for (int i = 0; i < graph->node_count; i++) {
-        levels[i] = 0; // Initialiser tous les niveaux à 0
+        levels[i] = 0; // Initialiser tous les niveaux a 0
     }
 
     // Identifier les producteurs primaires (niveaux trophiques = 1)
@@ -206,7 +206,7 @@ void calculate_trophic_levels(const Graph *graph, int levels[]) {
     do {
         updated = 0;
         for (int i = 0; i < graph->node_count; i++) {
-            if (levels[i] == 0) { // Si le niveau n'est pas encore calculé
+            if (levels[i] == 0) { // Si le niveau n'est pas encore calcule
                 int max_predecessor_level = 0;
                 int can_calculate = 1;
                 for (int j = 0; j < graph->node_count; j++) {
@@ -229,7 +229,7 @@ void calculate_trophic_levels(const Graph *graph, int levels[]) {
     } while (updated);
 }
 
-// Simulation de la disparition d'une espèce
+// Simulation de la disparition d'une espece
 void simulate_extinction(Graph *graph, const char *species_name) {
     int node = -1;
     for (int i = 0; i < graph->node_count; i++) {
@@ -244,7 +244,7 @@ void simulate_extinction(Graph *graph, const char *species_name) {
         return;
     }
 
-    // Retirer les arcs associés à l'espèce
+    // Retirer les arcs associes a l'espece
     for (int i = 0; i < graph->node_count; i++) {
         graph->adjacency_matrix[node][i] = 0; // Retirer arcs sortants
         graph->adjacency_matrix[i][node] = 0; // Retirer arcs entrants
@@ -321,7 +321,7 @@ void estimate_species_importance(Graph *graph) {
     }
 }
 
-// Fonction récursive pour imprimer les ancêtres d'un nœud
+// Fonction recursive pour imprimer les ancêtres d'un nœud
 void print_ancestors(const Graph *graph, int node, int visited[], int level) {
     visited[node] = 1;
     for (int i = 0; i < graph->node_count; i++) {
@@ -336,7 +336,7 @@ void print_ancestors(const Graph *graph, int node, int visited[], int level) {
     visited[node] = 0;
 }
 
-// Fonction pour afficher les chaînes alimentaires dont une espèce dépend
+// Fonction pour afficher les chaines alimentaires dont une espece depend
 void display_food_chains(const Graph *graph, const char *species_name) {
     int node = -1;
     for (int i = 0; i < graph->node_count; i++) {
@@ -347,11 +347,11 @@ void display_food_chains(const Graph *graph, const char *species_name) {
     }
 
     if (node == -1) {
-        printf("Espèce %s introuvable dans le graphe.\n", species_name);
+        printf("Espece %s introuvable dans le graphe.\n", species_name);
         return;
     }
 
-    printf("\n--- Chaînes alimentaires pour %s ---\n", species_name);
+    printf("\n--- Chaines alimentaires pour %s ---\n", species_name);
     int visited[MAX_NODES] = {0};
     print_ancestors(graph, node, visited, 0);
 }
@@ -369,7 +369,7 @@ void appliquer_degradation(Graph *graph, float facteur_degradation)
         graph->node_properties[i].co2_absorbe *= (1 - facteur_degradation);
         graph->node_properties[i].capacite_portage *= (1 - facteur_degradation);
 
-        // Affichage des propriétés mises à jour
+        // Affichage des proprietes mises a jour
         printf("Node %d (%s):\n", i, graph->node_names[i]);
         printf("  Biomasse (kg): %.2f\n", graph->node_properties[i].biomasse_kg);
         printf("  Flux (W): %.2f\n", graph->node_properties[i].flux_W);
@@ -381,29 +381,41 @@ void appliquer_degradation(Graph *graph, float facteur_degradation)
 
 
 
-void predation_consommation(Graph *graph, float facteur_predation)
+void predation_consommation(Graph graph, float facteur_predation)
 {
-    for (int i = 0; i < graph->node_count; i++)  // Pour chaque sommet
+    float facteur_degradation = 0.4;
+    for (int i = 0; i < graph.node_count; i++)  // Pour chaque sommet
     {
-        if (graph->node_properties[i].flux_W > 0)  // Si le sommet i est un consommateur (ayant un flux positif)
+        if (graph.node_properties[i].flux_W > 0)  // Si le sommet i est un consommateur (flux positif)
         {
-            for (int j = 0; j < graph->node_count; j++)  // Parcourir tous les voisins
-            {
-                if (graph->adjacency_matrix[i][j] != 0)  // Si i et j sont connectés
-                {
-                    float reduction_biomasse = graph->node_properties[i].flux_W * facteur_predation;  // Calcul de la réduction
-                    graph->node_properties[j].biomasse_kg -= reduction_biomasse;  // Réduire la biomasse du voisin
+            // Impact de la degradation sur la capacite de portage du consommateur
+            graph.node_properties[i].capacite_portage= (1 - facteur_degradation);
+            printf("Sommet %d: capacite de portage apres degradation = %.2f\n", i, graph.node_properties[i].capacite_portage);
 
-                    // Éviter des valeurs négatives pour la biomasse
-                    if (graph->node_properties[j].biomasse_kg < 0)
+            for (int j = 0; j < graph.node_count; j++)  // Parcourir tous les voisins
+            {
+                if (graph.adjacency_matrix[i][j] != 0)  // Si i et j sont connectes
+                {
+                    // Reduction de la biomasse du voisin par predation
+                    float reduction_biomasse = graph.node_properties[i].flux_W * facteur_predation;
+
+                    // Appliquer un facteur de degradation a l'impact de la predation
+                    reduction_biomasse *= (1 - facteur_degradation);
+
+                    // Reduire la biomasse du voisin
+                    graph.node_properties[j].biomasse_kg -= reduction_biomasse;
+
+                    // eviter des valeurs negatives pour la biomasse
+                    if (graph.node_properties[j].biomasse_kg < 0)
                     {
-                        graph->node_properties[j].biomasse_kg = 0;
+                        graph.node_properties[j].biomasse_kg = 0;
                     }
+
+                    printf("Sommet %d -> voisin %d: biomasse apres predation = %.2f\n",
+                           i, j, graph.node_properties[j].biomasse_kg);
                 }
             }
         }
     }
 }
-
-
 

@@ -32,8 +32,7 @@ void afficher_dot(const char *dot_filename);
 
 void estimate_species_importance(Graph *graph);
 void appliquer_degradation(Graph *graph, float facteur_degradation);
-void predation_consommation(Graph *graph, float facteur_predation);
-
+void predation_consommation(Graph graph, float facteur_predation);
 // Vérification de connexité
 int is_connected(const Graph *graph, int components[]);
 // Recherche de sommets particuliers
